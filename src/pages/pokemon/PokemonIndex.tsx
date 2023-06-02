@@ -2,10 +2,10 @@ import React from 'react';
 
 type Props = {};
 
-const DashboardIndex = (props: Props) => {
+const PokemonIndex = (props: Props) => {
   return (
     <div>DashboardIndex</div>
   );
 };
 
-export default DashboardIndex;
+export default PokemonIndex;

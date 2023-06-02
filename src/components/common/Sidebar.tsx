@@ -1,12 +1,25 @@
-import { Avatar, Drawer, List, Stack, Toolbar } from "@mui/material";
-import assets from "../../assets";
-import colorConfigs from "../../configs/colorConfigs";
+import { Avatar, CircularProgress, Drawer, List, Stack, Toolbar } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import sizeConfigs from "../../configs/sizeConfigs";
+import { RootState } from "../../redux/store";
 import appRoutes from "../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
 
 const Sidebar = () => {
+  const { appPallette, appState } = useSelector((state: RootState) => state.appState);
+  const logo = useSelector((state: RootState) => state.appState.appPallette.sidebar.logo);
+  const [logoLoading, setLogoLoading] = useState(false);
+
+  useEffect(() => {
+    setLogoLoading(false);
+  }, [appPallette, appState]);
+
+  const handleClick = () => {
+    setLogoLoading(true);
+  }
+
   return (
     <Drawer
       variant="permanent"
@@ -17,8 +30,9 @@ const Sidebar = () => {
           width: sizeConfigs.sidebar.width,
           boxSizing: "border-box",
           borderRight: "0px",
-          backgroundColor: colorConfigs.sidebar.bg,
-          color: colorConfigs.sidebar.color
+          backgroundColor: appPallette.sidebar.bg,
+          color: appPallette.sidebar.color,
+          overflow: 'hidden'
         }
       }}
     >
@@ -29,15 +43,19 @@ const Sidebar = () => {
             direction="row"
             justifyContent="center"
           >
-            <Avatar src={assets.images.logo} />
+            {logoLoading ? (
+              <CircularProgress />
+            ) : (
+              <img src={logo} alt="Logo" height={200} style={{ padding: "10px" }} />
+            )}
           </Stack>
         </Toolbar>
         {appRoutes.map((route, index) => (
-          route.sidebarProps ? (
+          route.displayProps ? (
             route.child ? (
-              <SidebarItemCollapse item={route} key={index} />
+              <SidebarItemCollapse item={route} key={index} handleClick={handleClick} />
             ) : (
-              <SidebarItem item={route} key={index} />
+              <SidebarItem item={route} key={index} handleClick={handleClick} />
             )
           ) : null
         ))}

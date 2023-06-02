@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { ColorConfig } from "../configs/colorConfigs";
 
 export type RouteType = {
   element: ReactNode,
@@ -6,8 +7,9 @@ export type RouteType = {
   index?: boolean,
   path?: string,
   child?: RouteType[],
-  sidebarProps?: {
+  displayProps?: {
     displayText: string,
     icon?: ReactNode;
+    pallete?: ColorConfig
   };
 };

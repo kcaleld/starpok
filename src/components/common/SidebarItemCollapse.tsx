@@ -1,6 +1,5 @@
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import colorConfigs from "../../configs/colorConfigs";
 import { RouteType } from "../../routes/config";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
@@ -10,12 +9,13 @@ import { RootState } from "../../redux/store";
 
 type Props = {
   item: RouteType;
+  handleClick: () => void;
 };
 
-const SidebarItemCollapse = ({ item }: Props) => {
-  const [open, setOpen] = useState(false);
+const SidebarItemCollapse = ({ item, handleClick }: Props) => {
+  const { appState, appPallette } = useSelector((state: RootState) => state.appState);
 
-  const { appState } = useSelector((state: RootState) => state.appState);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (appState.includes(item.state)) {
@@ -24,28 +24,34 @@ const SidebarItemCollapse = ({ item }: Props) => {
   }, [appState, item]);
 
   return (
-    item.sidebarProps ? (
+    item.displayProps ? (
       <>
         <ListItemButton
           onClick={() => setOpen(!open)}
           sx={{
             "&: hover": {
-              backgroundColor: colorConfigs.sidebar.hoverBg
+              backgroundColor: appPallette.sidebar.hoverBg,
+              color: appPallette.sidebar.hoverColor,
+              "& .MuiListItemIcon-root": {
+                color: appPallette.sidebar.hoverColor
+              }
             },
+            backgroundColor: appState === item.state ? appPallette.sidebar.activeBg : "unset",
+            color: appState == item.state ? appPallette.sidebar.activeColor : appPallette.sidebar.color,
             paddingY: "12px",
             paddingX: "24px"
           }}
         >
           <ListItemIcon sx={{
-            color: colorConfigs.sidebar.color
+            color: appPallette.sidebar.color
           }}>
-            {item.sidebarProps.icon && item.sidebarProps.icon}
+            {item.displayProps.icon && item.displayProps.icon}
           </ListItemIcon>
           <ListItemText
             disableTypography
             primary={
               <Typography>
-                {item.sidebarProps.displayText}
+                {item.displayProps.displayText}
               </Typography>
             }
           />
@@ -54,11 +60,11 @@ const SidebarItemCollapse = ({ item }: Props) => {
         <Collapse in={open} timeout="auto">
           <List>
             {item.child?.map((route, index) => (
-              route.sidebarProps ? (
+              route.displayProps ? (
                 route.child ? (
-                  <SidebarItemCollapse item={route} key={index} />
+                  <SidebarItemCollapse item={route} key={index} handleClick={handleClick} />
                 ) : (
-                  <SidebarItem item={route} key={index} />
+                  <SidebarItem item={route} key={index} handleClick={handleClick} />
                 )
               ) : null
             ))}

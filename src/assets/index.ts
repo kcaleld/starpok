@@ -1,6 +1,7 @@
 const assets = {
-  images: {
-    logo: require("./images/typescript-logo-240.png")
+  logos: {
+    starwars: require("./images/star-wars-logo.png"),
+    pokemon: require("./images/pokemon-logo.png")
   }
 };
 

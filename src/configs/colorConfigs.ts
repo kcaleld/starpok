@@ -1,17 +1,57 @@
 import { colors } from "@mui/material";
+import assets from "../assets";
 
-const colorConfigs = {
+type SidebarConfig = {
+  bg: string,
+  color: string,
+  hoverBg: string,
+  hoverColor: string,
+  activeBg: string,
+  activeColor: string,
+  logo: string
+}
+
+type TopbarConfig = {
+  bg: string,
+  color: string
+}
+
+export type ColorConfig = {
+  sidebar: SidebarConfig,
+  topbar: TopbarConfig,
+  mainBg: string
+}
+
+export const starWarsColorConfig: ColorConfig = {
   sidebar: {
-    bg: "#233044",
+    bg: "#000000",
     color: "#eeeeee",
-    hoverBg: "#1e293a",
-    activeBg: "#1e253a"
+    hoverBg: "#FEC601",
+    hoverColor: "#000000",
+    activeBg: "#FEC601",
+    activeColor: "#000000",
+    logo: assets.logos.starwars
   },
   topbar: {
-    bg: "#fff",
-    color: "#000"
+    bg: "#FEC601",
+    color: "#000000"
   },
   mainBg: colors.grey["100"]
 };
 
-export default colorConfigs;
+export const pokemonColorConfig: ColorConfig = {
+  sidebar: {
+    bg: "#FEC601",
+    color: "#0057B8",
+    hoverBg: "#0057B8",
+    hoverColor: "#FEC601",
+    activeBg: "#0057B8",
+    activeColor: "#FEC601",
+    logo: assets.logos.pokemon
+  },
+  topbar: {
+    bg: "#0057B8",
+    color: "#FEC601"
+  },
+  mainBg: colors.grey["100"]
+};

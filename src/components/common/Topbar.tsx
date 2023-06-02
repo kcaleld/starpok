@@ -1,8 +1,11 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
-import colorConfigs from "../../configs/colorConfigs";
+import { useSelector } from "react-redux";
 import sizeConfigs from "../../configs/sizeConfigs";
+import { RootState } from "../../redux/store";
 
 const Topbar = () => {
+  const { appTitle, appPallette } = useSelector((state: RootState) => state.appState);
+
   return (
     <AppBar
       position="fixed"
@@ -10,13 +13,13 @@ const Topbar = () => {
         width: `calc(100% - ${sizeConfigs.sidebar.width})`,
         ml: sizeConfigs.sidebar.width,
         boxShadow: "unset",
-        backgroundColor: colorConfigs.topbar.bg,
-        color: colorConfigs.topbar.color
+        backgroundColor: appPallette.topbar.bg,
+        color: appPallette.topbar.color
       }}
     >
       <Toolbar>
         <Typography variant="h6">
-          React sidebar with dropdown
+          {appTitle}
         </Typography>
       </Toolbar>
     </AppBar>

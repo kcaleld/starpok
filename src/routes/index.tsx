@@ -6,20 +6,21 @@ import { RouteType } from "./config";
 
 const generateRoute = (routes: RouteType[]): ReactNode => {
   return routes.map((route, index) => (
-    route.index ? (
+    route.index === true ? (
       <Route
         index
         path={route.path}
-        element={<PageWrapper state={route.state}>
-          {route.element}
-        </PageWrapper>}
+        element={
+          <PageWrapper state={route.state} title={route.displayProps?.displayText} pallete={route.displayProps?.pallete}>
+            {route.element}
+          </PageWrapper>}
         key={index}
       />
     ) : (
       <Route
         path={route.path}
         element={
-          <PageWrapper state={route.child ? undefined : route.state}>
+          <PageWrapper state={route.child ? undefined : route.state} title={route.child ? undefined : route.displayProps?.displayText} pallete={route.displayProps?.pallete}>
             {route.element}
           </PageWrapper>
         }
